@@ -1,3 +1,7 @@
+import { createSignal } from "solid-js"
+
+const [speaking, setSpeaking] = createSignal(false)
+
 const iOSVoiceNames = [
   "Maged",
   "Zuzana",
@@ -80,14 +84,18 @@ export function speak(text: string, options?: { rate?: number; pitch?: number })
   getVoices().then((voices) => {
     const best = getBestVoice(voices)
     if (best) utterance.voice = best
+    utterance.onend = () => setSpeaking(false)
+    utterance.onerror = () => setSpeaking(false)
+    setSpeaking(true)
     speechSynthesis.speak(utterance)
   })
 }
 
 export function stop() {
   speechSynthesis?.cancel()
+  setSpeaking(false)
 }
 
 export function isSpeaking() {
-  return speechSynthesis?.speaking ?? false
+  return speaking()
 }

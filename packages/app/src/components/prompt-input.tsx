@@ -55,7 +55,7 @@ import { PromptImageAttachments } from "./prompt-input/image-attachments"
 import { PromptDragOverlay } from "./prompt-input/drag-overlay"
 import { promptPlaceholder } from "./prompt-input/placeholder"
 import { ImagePreview } from "@opencode-ai/ui/image-preview"
-import { stop } from "@/utils/tts"
+import { stop, isSpeaking } from "@/utils/tts"
 import { speakEnabled, setSpeakEnabled } from "@/utils/speak"
 
 interface PromptInputProps {
@@ -1587,10 +1587,14 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
               </div>
               <div class="shrink-0">
                 <Button
-                  variant={speakEnabled() ? "primary" : "ghost"}
+                  variant="ghost"
                   size="normal"
+                  data-active={speakEnabled()}
                   onClick={() => {
-                    if (speakEnabled()) {
+                    if (speakEnabled() && isSpeaking()) {
+                      stop()
+                      setSpeakEnabled(false)
+                    } else if (speakEnabled()) {
                       stop()
                       setSpeakEnabled(false)
                     } else {
@@ -1598,7 +1602,7 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
                     }
                   }}
                 >
-                  {speakEnabled() ? "Stop" : "Speak Responses"}
+                  {speakEnabled() && isSpeaking() ? "Stop Speaking" : "Speak Responses"}
                 </Button>
               </div>
             </div>
