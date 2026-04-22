@@ -33,6 +33,8 @@ import { messageAgentColor } from "@/utils/agent"
 import { sessionTitle } from "@/utils/session-title"
 import { parseCommentNote, readCommentMetadata } from "@/utils/comment-note"
 import { makeTimer } from "@solid-primitives/timer"
+import { speak } from "@/utils/tts"
+import { speakEnabled } from "@/utils/speak"
 
 type MessageComment = {
   path: string
@@ -261,6 +263,26 @@ export function MessageTimeline(props: {
   })
   const working = createMemo(() => !!pending() || sessionStatus().type !== "idle")
   const tint = createMemo(() => messageAgentColor(sessionMessages(), sync.data.agent))
+
+  createEffect(
+    on(
+      () => pending()?.id,
+      (currentID, prevID) => {
+        if (!speakEnabled()) return
+        if (prevID && !currentID) {
+          const parts = sync.data.part[prevID]
+          if (!parts) return
+          const text = parts
+            .filter((p): p is TextPart => p.type === "text")
+            .filter((p) => !p.synthetic && !p.ignored)
+            .map((p) => p.text)
+            .join("\n")
+          if (text) speak(text)
+        }
+      },
+      { defer: true },
+    ),
+  )
 
   const [timeoutDone, setTimeoutDone] = createSignal(true)
 
