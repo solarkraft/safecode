@@ -1591,18 +1591,14 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
                   size="normal"
                   data-active={speakEnabled()}
                   onClick={() => {
-                    if (speakEnabled() && isSpeaking()) {
+                    if (isSpeaking()) {
                       stop()
-                      setSpeakEnabled(false)
-                    } else if (speakEnabled()) {
-                      stop()
-                      setSpeakEnabled(false)
                     } else {
-                      setSpeakEnabled(true)
+                      setSpeakEnabled(!speakEnabled())
                     }
                   }}
                 >
-                  {speakEnabled() && isSpeaking() ? "Stop Speaking" : "Speak Responses"}
+                  {isSpeaking() ? "Stop Speaking" : "Speak Responses"}
                 </Button>
               </div>
             </div>
