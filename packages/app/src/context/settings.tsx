@@ -26,6 +26,7 @@ export interface Settings {
     showReasoningSummaries: boolean
     shellToolPartsExpanded: boolean
     editToolPartsExpanded: boolean
+    speakResponses: boolean
   }
   updates: {
     startup: boolean
@@ -92,6 +93,7 @@ const defaultSettings: Settings = {
     showReasoningSummaries: false,
     shellToolPartsExpanded: false,
     editToolPartsExpanded: false,
+    speakResponses: false,
   },
   updates: {
     startup: true,
@@ -182,6 +184,13 @@ export const { use: useSettings, provider: SettingsProvider } = createSimpleCont
         ),
         setEditToolPartsExpanded(value: boolean) {
           setStore("general", "editToolPartsExpanded", value)
+        },
+        speakResponses: withFallback(
+          () => store.general?.speakResponses,
+          defaultSettings.general.speakResponses,
+        ),
+        setSpeakResponses(value: boolean) {
+          setStore("general", "speakResponses", value)
         },
       },
       updates: {

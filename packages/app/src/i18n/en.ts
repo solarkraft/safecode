@@ -749,6 +749,13 @@ export const dict = {
   "settings.general.row.editToolPartsExpanded.title": "Expand edit tool parts",
   "settings.general.row.editToolPartsExpanded.description":
     "Show edit, write, and patch tool parts expanded by default in the timeline",
+  "settings.general.row.speakResponses.title": "Speak responses",
+  "settings.general.row.speakResponses.description": "Read assistant messages aloud using text-to-speech",
+
+  "settings.tab.speech": "Speech",
+  "settings.speech.subtitle": "Enable button to read agent responses aloud",
+  "settings.speech.row.speakResponses.title": "Enable speak button",
+  "settings.speech.row.speakResponses.description": "Show speak button in prompt bar to read responses aloud",
 
   "settings.general.row.wayland.title": "Use native Wayland",
   "settings.general.row.wayland.description": "Disable X11 fallback on Wayland. Requires restart.",

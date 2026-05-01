@@ -57,6 +57,7 @@ import { promptPlaceholder } from "./prompt-input/placeholder"
 import { ImagePreview } from "@opencode-ai/ui/image-preview"
 import { stop, isSpeaking } from "@/utils/tts"
 import { speakEnabled, setSpeakEnabled } from "@/utils/speak"
+import { useSettings } from "@/context/settings"
 
 interface PromptInputProps {
   class?: string
@@ -115,6 +116,7 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
   const permission = usePermission()
   const language = useLanguage()
   const platform = usePlatform()
+  const settings = useSettings()
   const { params, tabs, view } = useSessionLayout()
   let editorRef!: HTMLDivElement
   let fileInputRef: HTMLInputElement | undefined
@@ -1585,22 +1587,24 @@ export const PromptInput: Component<PromptInputProps> = (props) => {
                   </div>
                 </Show>
               </div>
-              <div class="shrink-0">
-                <Button
-                  variant="ghost"
-                  size="normal"
-                  data-active={speakEnabled()}
-                  onClick={() => {
-                    if (isSpeaking()) {
-                      stop()
-                    } else {
-                      setSpeakEnabled(!speakEnabled())
-                    }
-                  }}
-                >
-                  {isSpeaking() ? "Stop Speaking" : "Speak Responses"}
-                </Button>
-              </div>
+              <Show when={settings.general.speakResponses()}>
+                <div class="shrink-0">
+                  <Button
+                    variant="ghost"
+                    size="normal"
+                    data-active={speakEnabled()}
+                    onClick={() => {
+                      if (isSpeaking()) {
+                        stop()
+                      } else {
+                        setSpeakEnabled(!speakEnabled())
+                      }
+                    }}
+                  >
+                    {isSpeaking() ? "Stop Speaking" : "Speak Responses"}
+                  </Button>
+                </div>
+              </Show>
             </div>
           </div>
         </DockTray>
