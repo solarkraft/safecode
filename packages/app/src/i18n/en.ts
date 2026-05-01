@@ -758,6 +758,7 @@ export const dict = {
   "settings.speech.row.speakResponses.description": "Show speak button in prompt bar to read responses aloud",
   "settings.speech.row.backend.title": "Speech backend",
   "settings.speech.row.backend.description": "Backend that will be used to generate speech output",
+  "settings.speech.iosWarning": "Due to arbitrary restrictions, asynchronously playing speech via the web speech API does not work on iOS",
 
   "settings.general.row.wayland.title": "Use native Wayland",
   "settings.general.row.wayland.description": "Disable X11 fallback on Wayland. Requires restart.",

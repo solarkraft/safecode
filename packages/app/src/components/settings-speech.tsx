@@ -1,10 +1,11 @@
-import { Component } from "solid-js"
+import { Component, Show } from "solid-js"
 import { Select } from "@opencode-ai/ui/select"
 import { Switch } from "@opencode-ai/ui/switch"
 import { useLanguage } from "@/context/language"
 import { useSettings } from "@/context/settings"
 import { SettingsList } from "./settings-list"
 import { SettingsRow } from "./settings-row"
+import { isIOS } from "@/utils/tts"
 
 const backendOptions = [{ value: "web-speech-api", label: "Web Speech API" }]
 
@@ -22,6 +23,14 @@ export const SettingsSpeech: Component = () => {
       </div>
 
       <div class="flex flex-col gap-8 w-full">
+        <Show when={isIOS()}>
+          <SettingsList>
+            <div class="px-4 py-3 text-13-regular text-text-weak">
+              {language.t("settings.speech.iosWarning")}
+            </div>
+          </SettingsList>
+        </Show>
+
         <SettingsList>
           <SettingsRow
             title={language.t("settings.speech.row.speakResponses.title")}
