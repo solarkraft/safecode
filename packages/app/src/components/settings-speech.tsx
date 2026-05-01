@@ -1,9 +1,12 @@
 import { Component } from "solid-js"
+import { Select } from "@opencode-ai/ui/select"
 import { Switch } from "@opencode-ai/ui/switch"
 import { useLanguage } from "@/context/language"
 import { useSettings } from "@/context/settings"
 import { SettingsList } from "./settings-list"
 import { SettingsRow } from "./settings-row"
+
+const backendOptions = [{ value: "web-speech-api", label: "Web Speech API" }]
 
 export const SettingsSpeech: Component = () => {
   const language = useLanguage()
@@ -30,6 +33,23 @@ export const SettingsSpeech: Component = () => {
                 onChange={(checked) => settings.general.setSpeakResponses(checked)}
               />
             </div>
+          </SettingsRow>
+
+          <SettingsRow
+            title={language.t("settings.speech.row.backend.title")}
+            description={language.t("settings.speech.row.backend.description")}
+          >
+            <Select
+              data-action="settings-speech-backend"
+              options={backendOptions}
+              current={backendOptions.find((o) => o.value === "web-speech-api")}
+              value={(o) => o.value}
+              label={(o) => o.label}
+              onSelect={() => {}}
+              variant="secondary"
+              size="small"
+              triggerVariant="settings"
+            />
           </SettingsRow>
         </SettingsList>
       </div>

@@ -756,6 +756,8 @@ export const dict = {
   "settings.speech.subtitle": "Enable button to read agent responses aloud",
   "settings.speech.row.speakResponses.title": "Enable speak button",
   "settings.speech.row.speakResponses.description": "Show speak button in prompt bar to read responses aloud",
+  "settings.speech.row.backend.title": "Speech backend",
+  "settings.speech.row.backend.description": "Backend that will be used to generate speech output",
 
   "settings.general.row.wayland.title": "Use native Wayland",
   "settings.general.row.wayland.description": "Disable X11 fallback on Wayland. Requires restart.",
