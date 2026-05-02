@@ -758,6 +758,10 @@ export const dict = {
   "settings.speech.row.speakResponses.description": "Show speak button in prompt bar to read responses aloud",
   "settings.speech.row.backend.title": "Speech backend",
   "settings.speech.row.backend.description": "Backend that will be used to generate speech output",
+  "settings.speech.row.backendUrl.title": "API Endpoint URL",
+  "settings.speech.row.backendUrl.description": "URL of the OpenAI-compatible TTS endpoint",
+  "settings.speech.row.backendUrl.placeholder": "https://api.example.com/v1/audio/speech",
+  "settings.speech.row.backendToken.placeholder": "Bearer token (optional)",
   "settings.speech.iosWarning": "Due to arbitrary restrictions, asynchronously playing speech via the web speech API does not work on iOS",
 
   "settings.general.row.wayland.title": "Use native Wayland",

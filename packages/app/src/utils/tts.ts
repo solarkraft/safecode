@@ -43,7 +43,7 @@ const iOSVoiceNames = [
   "Mei-Jia",
 ]
 
-function isIOS() {
+export function isIOS() {
   return /iPad|iPhone|iPod/.test(navigator.userAgent)
 }
 
@@ -72,7 +72,58 @@ function getVoices(): Promise<SpeechSynthesisVoice[]> {
   })
 }
 
-export function speak(text: string, options?: { rate?: number; pitch?: number }) {
+export function speakOpenAICompatible(text: string, url: string, token?: string) {
+  if (!url) return
+
+  setSpeaking(true)
+
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  }
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`
+  }
+
+  fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({
+      model: "mlx-community/Soprano-1.1-80M-8bit",
+      input: text,
+    }),
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error("TTS request failed")
+      return response.arrayBuffer()
+    })
+    .then((arrayBuffer) => {
+      const blob = new Blob([arrayBuffer], { type: "audio/mpeg" })
+      const audioUrl = URL.createObjectURL(blob)
+      const audio = new Audio(audioUrl)
+      audio.onended = () => {
+        setSpeaking(false)
+        URL.revokeObjectURL(audioUrl)
+      }
+      audio.onerror = () => {
+        setSpeaking(false)
+        URL.revokeObjectURL(audioUrl)
+      }
+      audio.play()
+    })
+    .catch(() => {
+      setSpeaking(false)
+    })
+}
+
+export function speak(
+  text: string,
+  options?: { rate?: number; pitch?: number; backend?: string; url?: string; token?: string },
+) {
+  if (options?.backend === "openai-compatible" && options?.url) {
+    speakOpenAICompatible(text, options.url, options.token)
+    return
+  }
+
   if (!speechSynthesis) return
 
   speechSynthesis.cancel()

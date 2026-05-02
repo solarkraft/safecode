@@ -27,6 +27,9 @@ export interface Settings {
     shellToolPartsExpanded: boolean
     editToolPartsExpanded: boolean
     speakResponses: boolean
+    speechBackend: "web-speech-api" | "openai-compatible"
+    speechBackendUrl: string
+    speechBackendToken: string
   }
   updates: {
     startup: boolean
@@ -94,6 +97,9 @@ const defaultSettings: Settings = {
     shellToolPartsExpanded: false,
     editToolPartsExpanded: false,
     speakResponses: false,
+    speechBackend: "web-speech-api",
+    speechBackendUrl: "",
+    speechBackendToken: "",
   },
   updates: {
     startup: true,
@@ -191,6 +197,27 @@ export const { use: useSettings, provider: SettingsProvider } = createSimpleCont
         ),
         setSpeakResponses(value: boolean) {
           setStore("general", "speakResponses", value)
+        },
+        speechBackend: withFallback(
+          () => store.general?.speechBackend,
+          defaultSettings.general.speechBackend,
+        ),
+        setSpeechBackend(value: "web-speech-api" | "openai-compatible") {
+          setStore("general", "speechBackend", value)
+        },
+        speechBackendUrl: withFallback(
+          () => store.general?.speechBackendUrl,
+          defaultSettings.general.speechBackendUrl,
+        ),
+        setSpeechBackendUrl(value: string) {
+          setStore("general", "speechBackendUrl", value)
+        },
+        speechBackendToken: withFallback(
+          () => store.general?.speechBackendToken,
+          defaultSettings.general.speechBackendToken,
+        ),
+        setSpeechBackendToken(value: string) {
+          setStore("general", "speechBackendToken", value)
         },
       },
       updates: {

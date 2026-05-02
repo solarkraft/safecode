@@ -277,7 +277,12 @@ export function MessageTimeline(props: {
             .filter((p) => !p.synthetic && !p.ignored)
             .map((p) => p.text)
             .join("\n")
-          if (text) speak(text)
+          if (text) {
+            const backend = settings.general.speechBackend()
+            const url = settings.general.speechBackendUrl()
+            const token = settings.general.speechBackendToken()
+            speak(text, { backend, url, token })
+          }
         }
       },
       { defer: true },
